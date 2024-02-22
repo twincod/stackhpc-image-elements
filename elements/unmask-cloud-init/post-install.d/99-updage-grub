@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ ${DIB_DEBUG_TRACE:-1} -gt 0 ]; then
+    set -x
+fi
+set -eu
+set -o pipefail
+
+sudo rm -f /etc/default/grub.d/50-cloudimg-settings.cfg && echo "Successfully removed /etc/default/grub.d/50-cloudimg-settings.cfg" || true
+sudo sed -i "s/console=ttyS0/console=ttyS0,115200 no_timer_check gfxpayload=text ipv6.disable=1 net.ifnames=0 biosdevname=0/g"  /boot/grub/grub.cfg && echo "Successfully add default eth name and disable ipv6" || true
+sudo /usr/sbin/update-grub && echo "grub update" || true
