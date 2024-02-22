@@ -6,5 +6,6 @@ fi
 set -u
 set -o pipefail
 
-sudo sed -i "s/console=ttyS0/console=ttyS0,115200 no_timer_check gfxpayload=text ipv6.disable=1 net.ifnames=0 biosdevname=0/g"  $TARGET_ROOT/boot/grub/grub.cfg && echo "Successfully add default eth name and disable ipv6" || true
 sudo rm -f $TARGET_ROOT/etc/default/grub.d/50-cloudimg-settings.cfg && echo "Successfully removed /etc/default/grub.d/50-cloudimg-settings.cfg" || true
+sudo sed -i "s/console=ttyS0/console=ttyS0,115200 no_timer_check gfxpayload=text ipv6.disable=1 net.ifnames=0 biosdevname=0/g"  $TARGET_ROOT/boot/grub/grub.cfg && echo "Successfully add default eth name and disable ipv6" || true
+sudo chroot $TARGET_ROOT /usr/sbin/update-grub && echo "grub update" || true
